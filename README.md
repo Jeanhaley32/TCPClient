@@ -3,7 +3,7 @@
 
 
  ## Description
- __
+ 
  This is a simple implemention of Bubbletea, used to take text from user input,
  send it to a TCP server, and write that server output to the screen. 
 
