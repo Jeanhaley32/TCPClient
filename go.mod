@@ -1,4 +1,4 @@
-module teatest
+module TCPClient
 
 go 1.20
 
