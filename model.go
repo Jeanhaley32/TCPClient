@@ -24,7 +24,6 @@ type model struct {
 	textinput textinput.Model
 	conn      net.Conn // Connection Object
 	message   []byte   // Message taken from Server
-	ServerMsg ServerMsg
 	viewport  viewport.Model
 	ready     bool
 }
@@ -62,17 +61,7 @@ func initialModel() model {
 	model := model{
 		conn:      c,
 		textinput: ti,
-		message:   []byte("Retrieving Server Message..."),
-		ServerMsg: ServerMsg{
-			topBanner:     "No Banner",
-			welcome:       "No Welcome",
-			connections:   "No Connection",
-			help:          "No Help",
-			connID:        "No ConnID",
-			sessionLength: "No Sessions Length",
-			factoid:       "No Factoid",
-			chats:         "No Chats",
-		},
+		message:   []byte("Retrieving Server Message"),
 	}
 	// Return model with initial state.
 	return model
@@ -80,5 +69,5 @@ func initialModel() model {
 
 // Constructs the View for the Bubble Tea program.
 func (m model) View() string {
-	return fmt.Sprintf("%s\n", m.ServerMsg.topBanner)
+	return fmt.Sprintf("%v\n%v\n%v\n%v", m.headerView(), m.viewport.View(), m.footerView(), m.textinput.View())
 }

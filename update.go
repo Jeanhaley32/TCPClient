@@ -28,7 +28,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		}
 	case ServerMsg:
-		m.viewport.SetContent(m.ServerMsg.chats)
+		m.message = []byte(msg)
+		m.viewport.SetContent(string(m.message))
 		if useHighPerformanceRenderer {
 			cmds = append(cmds, viewport.Sync(m.viewport))
 		}

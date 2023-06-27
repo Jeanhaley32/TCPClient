@@ -2,58 +2,20 @@
 package main
 
 import (
-	"strings"
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
 
-type ServerMsg struct {
-	topBanner     string
-	welcome       string
-	connections   string
-	help          string
-	connID        string
-	sessionLength string
-	banner        string
-	factoid       string
-	chats         string
-}
-
 type errorMsg error
 
 type TickMsg time.Time
 
-type ServerString string
+type ServerMsg string
 
 func (t TickMsg) time() time.Time {
 	return t.time()
-}
-
-// Splits ServerString into ServerMsg Components.
-func (s ServerString) msgSplit() ServerMsg {
-	strs := strings.Split(string(s), "\n")
-	topBanner := strings.Join(strs[0:6], "")
-	welcome := strs[8]
-	connections := strs[9]
-	help := strs[10]
-	connID := strs[11][:15]
-	sessionLength := strs[11][19:]
-	factoid := strings.Join(strs[13:15], "")
-	chats := strings.Join(strs[16:], "")
-
-	ServerMsg := ServerMsg{
-		topBanner:     topBanner,
-		welcome:       welcome,
-		connections:   connections,
-		help:          help,
-		connID:        connID,
-		sessionLength: sessionLength,
-		factoid:       factoid,
-		chats:         chats,
-	}
-	return ServerMsg
 }
 
 // Cmds
@@ -69,10 +31,8 @@ func (m model) getServerMessage() tea.Msg {
 	if err != nil {
 		return errorMsg(err)
 	}
-	if len(strings.Split(string(buffer), "\n")) < 17 {
-		return ServerString(buffer).msgSplit()
-	}
-	return nil
+
+	return ServerMsg(string(buffer))
 }
 
 func (m model) WriteServer(s string) tea.Msg {
