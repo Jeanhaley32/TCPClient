@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
@@ -26,19 +27,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.textinput.SetValue("")
 			}
 		}
-	case TickMsg:
-		m.getServerMessage()
-		m.viewport.SetContent(string(m.message))
+	case ServerMsg:
+		m.viewport.SetContent(m.ServerMsg.chats)
 		if useHighPerformanceRenderer {
 			cmds = append(cmds, viewport.Sync(m.viewport))
 		}
-		cmds = append(cmds, oneSecondTick())
+		cmds = append(cmds, m.getServerMessage)
 	case errorMsg:
 		_, e := m.conn.Write([]byte("Error: " + msg.Error()))
 		if e != nil {
 			log.Fatalln(e)
 		}
 		log.Printf("Error: %s", msg.Error())
+		time.Sleep(5 * time.Second)
 		if err := m.conn.Close(); err != nil {
 			log.Printf("Failed to Close Connection: %s", err.Error())
 		}

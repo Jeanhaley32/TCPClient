@@ -24,13 +24,14 @@ type model struct {
 	textinput textinput.Model
 	conn      net.Conn // Connection Object
 	message   []byte   // Message taken from Server
+	ServerMsg ServerMsg
 	viewport  viewport.Model
 	ready     bool
 }
 
 // Runs initial cmd.
 func (m model) Init() tea.Cmd {
-	return tea.Batch(oneSecondTick())
+	return m.getServerMessage
 }
 
 func (m model) headerView() string {
@@ -61,33 +62,23 @@ func initialModel() model {
 	model := model{
 		conn:      c,
 		textinput: ti,
+		message:   []byte("Retrieving Server Message..."),
+		ServerMsg: ServerMsg{
+			topBanner:     "No Banner",
+			welcome:       "No Welcome",
+			connections:   "No Connection",
+			help:          "No Help",
+			connID:        "No ConnID",
+			sessionLength: "No Sessions Length",
+			factoid:       "No Factoid",
+			chats:         "No Chats",
+		},
 	}
-	model.getServerMessage()
 	// Return model with initial state.
 	return model
 }
 
-func (m *model) getServerMessage() tea.Msg {
-	m.conn.SetReadDeadline(time.Now().Add(readdeadline))
-	buffer := make([]byte, 4000)
-	_, err := m.conn.Read(buffer)
-	if err != nil {
-		return errorMsg(err)
-	}
-	m.message = buffer[len(ClearScreenMarker)+len([]byte("\n")):] // Return buffer without ClearScreenMarker
-	return nil
-}
-
-func (m model) WriteServer(s string) tea.Msg {
-	m.conn.SetWriteDeadline(time.Now().Add(writedeadline))
-	_, err := m.conn.Write([]byte(s + "\n"))
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // Constructs the View for the Bubble Tea program.
 func (m model) View() string {
-	return fmt.Sprintf("%v\n%v\n%v\n%v", m.headerView(), m.viewport.View(), m.footerView(), m.textinput.View())
+	return fmt.Sprintf("%s\n", m.ServerMsg.topBanner)
 }
