@@ -8,7 +8,6 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// Msg Types
 type errorMsg error
 
 type TickMsg time.Time

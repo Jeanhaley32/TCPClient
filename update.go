@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/charmbracelet/bubbles/viewport"
@@ -21,7 +20,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "esc":
 			return m, tea.Quit
-
+		case "enter":
+			if m.textinput.Value() != "" {
+				m.WriteServer(m.textinput.Value())
+				m.textinput.SetValue("")
+			}
 		}
 	case TickMsg:
 		m.getServerMessage()
@@ -31,15 +34,16 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		cmds = append(cmds, oneSecondTick())
 	case errorMsg:
-		fmt.Println("Received Error Message")
+		_, e := m.conn.Write([]byte("Error: " + msg.Error()))
+		if e != nil {
+			log.Fatalln(e)
+		}
 		log.Printf("Error: %s", msg.Error())
-		fmt.Println("Attempting to Close TCP Connection")
 		if err := m.conn.Close(); err != nil {
 			log.Printf("Failed to Close Connection: %s", err.Error())
 		}
 		return m, tea.Quit
 	case tea.WindowSizeMsg:
-		m.WriteServer("WindowSizeMsg")
 		headerHeight := lipgloss.Height(m.headerView())
 		footerHeight := lipgloss.Height(m.footerView())
 		verticalMarginHeight := headerHeight + footerHeight
@@ -61,6 +65,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Handle keyboard and mouse events in the viewport
 	m.viewport, cmd = m.viewport.Update(msg)
 	cmds = append(cmds, cmd)
-
+	m.textinput, cmd = m.textinput.Update(msg)
+	cmds = append(cmds, cmd)
 	return m, tea.Batch(cmds...)
 }
