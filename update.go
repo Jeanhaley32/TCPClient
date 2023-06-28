@@ -33,6 +33,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if useHighPerformanceRenderer {
 			cmds = append(cmds, viewport.Sync(m.viewport))
 		}
+		// move viewport to bottom of content
 		cmds = append(cmds, m.getServerMessage)
 	case errorMsg:
 		_, e := m.conn.Write([]byte("Error: " + msg.Error()))
@@ -69,5 +70,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	cmds = append(cmds, cmd)
 	m.textinput, cmd = m.textinput.Update(msg)
 	cmds = append(cmds, cmd)
+	m.viewport.GotoBottom()
 	return m, tea.Batch(cmds...)
 }

@@ -16,7 +16,7 @@ import (
 var (
 	readdeadline   = 500 * time.Millisecond
 	writedeadline  = 500 * time.Millisecond
-	characterLimit = 32
+	characterLimit = 124
 )
 
 // model struct represents the state of the application.
@@ -34,7 +34,7 @@ func (m model) Init() tea.Cmd {
 }
 
 func (m model) headerView() string {
-	title := titleStyle.Render("TCP Connect")
+	title := titleStyle.Render("TCP Client")
 	line := strings.Repeat("─", max(0, m.viewport.Width-lipgloss.Width(title)))
 	return lipgloss.JoinHorizontal(lipgloss.Center, title, line)
 }
