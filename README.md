@@ -5,10 +5,9 @@
 
  ## Description
  
- This is a simple implemention of a TCP Server, using Bubbletea. Takes text from user input,
- sends it to a TCP server, and write that server output to the screen. 
-
- This is simple in that there is no data structuring. We are just using raw bytes. 
+ This is a simple implemention of a TCP Server using bubble tea to create an interface. 
+ Receives text from a TCP connection, and prints that to a window.
+ Take user input via a message prompt, and sends that as a message to the TCP server. 
 
  Another future, more ad-hoc implementation of this in the future will most likely 
  move around structured data for more refined functionality. 
