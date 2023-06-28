@@ -23,7 +23,7 @@ var (
 type model struct {
 	textinput textinput.Model
 	conn      net.Conn // Connection Object
-	message   []byte   // Message taken from Server
+	message   string   // Message taken from Server
 	viewport  viewport.Model
 	ready     bool
 }
@@ -61,7 +61,7 @@ func initialModel() model {
 	model := model{
 		conn:      c,
 		textinput: ti,
-		message:   []byte("Retrieving Server Message"),
+		message:   "Retrieving Server Message",
 	}
 	// Return model with initial state.
 	return model
