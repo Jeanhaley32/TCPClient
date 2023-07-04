@@ -33,11 +33,11 @@ func (m model) Init() tea.Cmd {
 	return m.getServerMessage
 }
 
-func (m model) headerView() string {
-	title := titleStyle.Render("TCP Client")
-	line := strings.Repeat("─", max(0, m.viewport.Width-lipgloss.Width(title)))
-	return lipgloss.JoinHorizontal(lipgloss.Center, title, line)
-}
+// func (m model) headerView() string {
+// 	title := titleStyle.Render("TCP Client")
+// 	line := strings.Repeat("─", max(0, m.viewport.Width-lipgloss.Width(title)))
+// 	return lipgloss.JoinHorizontal(lipgloss.Center, title, line)
+// }
 
 func (m model) footerView() string {
 	info := infoStyle.Render(fmt.Sprintf("%3.f%%", m.viewport.ScrollPercent()*100))
@@ -69,5 +69,5 @@ func initialModel() model {
 
 // Constructs the View for the Bubble Tea program.
 func (m model) View() string {
-	return fmt.Sprintf("%v\n%v\n%v\n%v", m.headerView(), m.viewport.View(), m.footerView(), m.textinput.View())
+	return fmt.Sprintf("%v\n%v\n%v", m.viewport.View(), m.footerView(), m.textinput.View())
 }
