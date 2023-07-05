@@ -12,4 +12,4 @@
  It's a bit broken at the moment. An Over-run of large entries will break the view. 
 
  ### Here's what it looks like in action.
- []()
+ ![](out.gif)
