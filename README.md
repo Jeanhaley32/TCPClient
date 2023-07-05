@@ -5,9 +5,11 @@
 
  ## Description
  
- This is a simple implemention of a TCP Server using bubble tea to create an interface. 
+ This is a simple TCP Client using bubble tea to create an interface. 
  Receives text from a TCP connection, and prints that to a window.
  Take user input via a message prompt, and sends that as a message to the TCP server. 
 
- Another future, more ad-hoc implementation of this in the future will most likely 
- move around structured data for more refined functionality. 
+ It's a bit broken at the moment. An Over-run of large entries will break the view. 
+
+ ### Here's what it looks like in action.
+ []()
