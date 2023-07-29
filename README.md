@@ -1,4 +1,7 @@
-```WARNING: CURRENTLY NON_FUNCTIONAL```
+🚧 **Work in Progress** 🚧
+
+`Althought this will work, It has issues when the text over-runs the view port`
+
 # TCPClient
  Simple TCP Client, for reading from connection, and sending raw messages.
 
